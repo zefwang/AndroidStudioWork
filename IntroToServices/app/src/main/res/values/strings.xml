@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">IntroToServices</string>
+    <string name="textView1Name">Example of Service</string>
+    <string name="textTitle">Made by Daniel Wang</string>
+    <string name="startService">Start Service</string>
+    <string name="stopService">Stop Service</string>
+</resources>
