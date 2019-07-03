@@ -15,8 +15,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void broadcastIntent(View view){
         Intent intent = new Intent();
-
-        intent.setAction("com.example.broadcastexample.CUSTOM_INTENT");
-        sendBroadcast(intent);
+        intent.setAction("com.example.broadcastexample.CUSTOM_INTENT"); sendBroadcast(intent);
     }
 }
