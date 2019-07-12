@@ -1,5 +1,6 @@
 package com.example.databasedemo;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
@@ -24,6 +25,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity {
     private static final int CODE_GET_REQUEST = 1024;
@@ -168,13 +171,15 @@ public class MainActivity extends AppCompatActivity {
             //getting each hero object
             JSONObject obj = documents.getJSONObject(i);
 
+            //System.out.println(obj.toString());
+
             //adding the hero to the list
             documentList.add(new Document(
                     obj.getInt("id"),
                     obj.getString("name"),
-                    obj.getString("realname"),
-                    obj.getInt("rating"),
-                    obj.getString("teamaffiliation")
+                    obj.getString("subject"),
+                    obj.getInt("wordCount"),
+                    obj.getString("textDate")
             ));
         }
 
@@ -206,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
         }
 
 
@@ -213,12 +219,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            progressBar.setVisibility(GONE);
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
                     Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
                     //refreshing the documentList after every operation so we get an updated list
-                    refreshDocumentList(object.getJSONArray("heroes"));
+                    refreshDocumentList(object.getJSONArray("documents"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -283,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
                     editTextHeroId.setText(String.valueOf(document.getId()));
                     editTextName.setText(document.getName());
                     editTextSubject.setText(document.getSubject());
-                    editTextWordCount.setText(document.getWordCount());
+                    editTextWordCount.setText(Integer.toString(document.getWordCount()));
                     editTextEntryDate.setText(document.getTextDate());
 
                     //we will also make the button text to Update
